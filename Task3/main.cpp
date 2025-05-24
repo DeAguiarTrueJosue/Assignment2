@@ -107,9 +107,14 @@ MediaItem* RemoveItem(MediaItem* head, char title[50])
 		return current;
 	}
 
-	while (CompareBothCase(title, current->next->title))
+	while (CompareBothCase(title, current->next->title) && current->next->next != nullptr)
 	{
 		current = current->next;
+	}
+
+	if (current->next == nullptr)
+	{
+		return head;
 	}
 
 	MediaItem* temp = current->next;
@@ -146,7 +151,7 @@ int main()
 
 	printf("Total playthrought time: %.2f\n", CalcuteDuration(head));
 
-	head = RemoveItem(head, (char*)"Science Everyday");
+	head = RemoveItem(head, (char*)"afwgzrsh");
 	
 	printf("\n");
 
