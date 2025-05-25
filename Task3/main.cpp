@@ -98,7 +98,9 @@ float CalcuteDuration(MediaItem* head)
 
 MediaItem* RemoveItem(MediaItem* head, char title[50])
 {
-	MediaItem* current = head;
+	MediaItem* current = head->next;
+	MediaItem* behind = head;
+	bool found = false;
 
 	if (!CompareBothCase(title, head->title))
 	{
@@ -107,19 +109,23 @@ MediaItem* RemoveItem(MediaItem* head, char title[50])
 		return current;
 	}
 
-	while (CompareBothCase(title, current->next->title) && current->next->next != nullptr)
+	while (current->next != nullptr)
 	{
 		current = current->next;
+		behind = behind->next;
+		if (!CompareBothCase(title, current->title))
+		{
+			found = true;
+		}
 	}
 
-	if (current->next == nullptr)
+	if (found)
 	{
+		MediaItem* temp = behind->next;
+		behind->next = behind->next->next;
+		free(temp);
 		return head;
 	}
-
-	MediaItem* temp = current->next;
-	current->next = current->next->next;
-	free(temp);
 	return head;
 }
 
@@ -151,7 +157,7 @@ int main()
 
 	printf("Total playthrought time: %.2f\n", CalcuteDuration(head));
 
-	head = RemoveItem(head, (char*)"afwgzrsh");
+	head = RemoveItem(head, (char*)"Flores Mortas");
 	
 	printf("\n");
 
